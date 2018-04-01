@@ -11,13 +11,13 @@
 #define GREEN_Y   _BV(PC6)  
 #define BLACK_Y   _BV(PC7)
 #define CM       345 // equates to 1 cm
-#define DISX     CM*5.55; // equates to length of dispil in X
-#define DISY     CM*3; // equates to height of dispil in Y
+#define DISX     CM*5.55 // equates to length of dispil in X
+#define DISY     CM*3 // equates to height of dispil in Y
 #define DELAY 1.5/* milliseconds between steps */
 
 // defines current position in x,y
-int currentX = NULL; //
-int currentY = NULL;
+int currentX = 0; //
+int currentY = 0;
 
 //Move X-
 void moveLeft (int steps){
