@@ -10,21 +10,42 @@
 #define BLUE_Y    _BV(PC5)
 #define GREEN_Y   _BV(PC6)  
 #define BLACK_Y   _BV(PC7)
-#define CM        345 // equates to 1 cm
+#define CM        11 // equates to 1 cm
 #define DISX      CM*5.55 // equates to length of dispil in X
-#define DISY      CM*3 // equates to height of dispil in Y
-#define DELAY 1.5/* milliseconds between steps */
+#define DISY      CM*3.2 // equates to height of dispil in Y
+#define DELAY     1.5
+/* milliseconds between steps */
 
 // defines current position in x,y
-int currentX = 1; //
-int currentY = 2;
+int currentX= 1;
+int currentY=1;
 
-//Move X-
+//Move X- 
 void moveLeft (int posX){
   if(currentX-posX > 0){
     sleepX(false);
     int steps = currentX - posX;
     currentX = posX;// update current position
+    for(int i = 0; i < (DISX*steps); i++){
+         PORTC = BLACK_X;
+      _delay_ms(DELAY);  
+      PORTC = BLUE_X;    
+      _delay_ms(DELAY); 
+      PORTC = GREEN_X;  
+      _delay_ms(DELAY);    
+      PORTC = RED_X;    
+      _delay_ms(DELAY);
+    }
+    sleepX(true);
+  }
+};
+
+//Move X+
+void moveRight (int posX){
+  if(currentX+posX < 6){
+    sleepX(false);
+    int steps =posX-currentX;
+    currentX = posX;
     for(int i = 0; i < (DISX*steps); i++){
       PORTC = RED_X;
       _delay_ms(DELAY);  
@@ -39,49 +60,10 @@ void moveLeft (int posX){
   }
 };
 
-//Move X+
-void moveRight (int posX){
-  if(currentX+posX < 5){
-    sleepX(false);
-    int steps =posX-currentX;
-    currentX = posX;
-    for(int i = 0; i < (DISX*steps); i++){
-      PORTC = BLACK_X;
-      _delay_ms(DELAY);  
-      PORTC = BLUE_X;    
-      _delay_ms(DELAY); 
-      PORTC = GREEN_X;  
-      _delay_ms(DELAY);    
-      PORTC = RED_X;    
-      _delay_ms(DELAY);
-    }
-    sleepX(true);
-  }
-};
-
 void moveUP (int posY){
   if(currentY-posY > 0){
     sleepY(false);
     int steps = currentY-posY;
-    currentY = posY;
-    for(int i = 0; i < (DISY*steps); i++){
-      PORTC = RED_Y;
-      _delay_ms(DELAY);  
-      PORTC = GREEN_Y;   
-      _delay_ms(DELAY); 
-      PORTC = BLUE_Y;  
-      _delay_ms(DELAY);    
-      PORTC = BLACK_Y;    
-      _delay_ms(DELAY);
-    }
-    sleepY(true);
-  }
-};
-
-void moveDown (int posY){
-  if(currentY+posY < 8){
-    sleepY(false);
-    int steps = posY-currentY;
     currentY = posY;
     for(int i = 0; i < (DISY*steps); i++){
       PORTC = BLACK_Y;
@@ -91,6 +73,25 @@ void moveDown (int posY){
       PORTC = GREEN_Y;  
       _delay_ms(DELAY);    
       PORTC = RED_Y;    
+      _delay_ms(DELAY);
+    }
+    sleepY(true);
+  }
+};
+
+void moveDown (int posY){
+  if(currentY+posY < 9){
+    sleepY(false);
+    int steps = posY-currentY;
+    currentY = posY;
+    for(int i = 0; i < (DISY*steps); i++){
+      PORTC = RED_Y;
+      _delay_ms(DELAY);  
+      PORTC = GREEN_Y;   
+      _delay_ms(DELAY); 
+      PORTC = BLUE_Y;  
+      _delay_ms(DELAY);    
+      PORTC = BLACK_Y;    
       _delay_ms(DELAY);
     }
     sleepY(true);
@@ -140,5 +141,7 @@ void setup(){
 
 int main(){
   setup();
-  moveHatch(2,4);
+  moveHatch(4,7);
+  _delay_ms(1000);
+  moveHatch(1,1);
 }
